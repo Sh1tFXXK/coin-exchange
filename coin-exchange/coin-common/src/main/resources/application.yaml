@@ -1,0 +1,57 @@
+server:
+    port: 8080
+spring:
+    application:
+        name: coin-common
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://mysql-server:3307/coin-exchange
+        username: root
+        password: 20021221
+    cloud:
+        nacos:
+            discovery:
+                server-addr: nacos-server:8848
+            config:
+                enabled: false
+                file-extension: yaml
+        sentinel:
+            transport:
+                dashboard: sentinel-server:8858
+    redis:
+        host: redis-server
+        port: 6380
+        password:
+swagger2:
+    base-package: com.wc.controller
+    name: wc
+    url: https://github.com/Sh1tFXXK
+    email: saf
+    title: test
+    description: test
+    version: 1.0
+    terms-of-service-url: ??
+mybatis-plus:
+    mapper-locations: classpath*:/mapper/*.xml
+    configuration:
+        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+jetcache:
+    statIntervalMinutes: 15
+    areaInCacheName: false
+    local:
+        default:
+            type: linkedhashmap
+            keyConvertor: fastjson
+    remote:
+        default:
+            type: redis
+            keyConvertor: fastjson
+            valueEncoder: kryo
+            valueDecoder: kryo
+            poolConfig:
+                minIdle: 5
+                maxIdle: 20
+                maxTotal: 50
+            host: ${spring.redis.host}
+            port: ${spring.redis.port}
+            password: ${spring.redis.password}
