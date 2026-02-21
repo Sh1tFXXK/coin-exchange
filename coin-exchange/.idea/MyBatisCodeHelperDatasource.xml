@@ -36,8 +36,22 @@
             </entry>
           </map>
         </option>
+        <option name="mybatisPlusIdType" value="AUTO" />
         <option name="tableGenerateConfigs">
           <map>
+            <entry key="coin-exchange:admin_bank">
+              <value>
+                <TableGenerateConfig>
+                  <option name="generatedKey" value="id" />
+                  <option name="javaModelName" value="AdminBank" />
+                  <option name="moduleName" value="admin-service" />
+                  <option name="mybatisplusIdType" value="AUTO" />
+                  <option name="sequenceColumn" value="" />
+                  <option name="sequenceId" value="" />
+                  <option name="useActualColumnName" value="false" />
+                </TableGenerateConfig>
+              </value>
+            </entry>
             <entry key="coin-exchange:config">
               <value>
                 <TableGenerateConfig>

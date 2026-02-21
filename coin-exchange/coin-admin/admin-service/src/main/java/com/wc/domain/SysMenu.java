@@ -4,9 +4,14 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -110,4 +115,37 @@ public class SysMenu {
     @TableField(value = "last_update_time")
     @ApiModelProperty(value="修改时间")
     private Date lastUpdateTime;
+
+    /**
+     * 一个菜单对应多个权限
+     */
+    @TableField(exist = false)
+    @ApiModelProperty("该菜单下的所有权限")
+    private List<SysPrivilege>  privileges = Collections.emptyList();
+
+    /**
+     * 一个菜单对应多个子菜单
+     */
+    @TableField(exist = false)
+    @ApiModelProperty("该菜单的子菜单")
+    private List<SysMenu> childs = Collections.emptyList();
+
+    @TableField(exist =false)
+    @ApiModelProperty("该菜单的唯一Key值")
+    private String menuKey;
+
+    /**
+     *
+     获取菜单的唯一Key
+     凭证
+     * @return
+     */
+    public String getMenuKey() {
+        if(!StringUtils.isEmpty(parentKey)) {
+            return parentKey+"."+id;
+        }else{
+            return id.toString();
+        }
+    }
+
 }

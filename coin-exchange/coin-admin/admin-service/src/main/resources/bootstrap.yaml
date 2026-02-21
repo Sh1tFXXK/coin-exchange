@@ -1,0 +1,18 @@
+spring:
+    application:
+        name: admin-service
+    cloud:
+        nacos:
+            server-addr: nacos-server:8848
+            discovery:
+                enabled: true
+                namespace: dev
+                group: DEFAULT_GROUP
+                register-enabled: true
+            config:
+                enabled: true
+                namespace: dev
+                group: DEFAULT_GROUP
+                file-extension: yaml
+    profiles:
+        active: dev

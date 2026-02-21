@@ -96,4 +96,8 @@ public class SysUser {
     @TableField(value = "last_update_time")
     @ApiModelProperty(value="修改时间")
     private Date lastUpdateTime;
+
+    @ApiModelProperty(value ="角色的IDS")
+    @TableField(exist =false)
+    private String role_strings;
 }

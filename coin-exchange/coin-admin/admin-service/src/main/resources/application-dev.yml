@@ -1,0 +1,45 @@
+server:
+    port: 8080
+
+# MyBatis-Plus 配置
+mybatis-plus:
+    mapper-locations: classpath:mappers/**/*.xml
+    type-aliases-package: com.wc.domain
+    configuration:
+        map-underscore-to-camel-case: true
+        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    type-enums-package: com.wc.domain.enums
+
+# Feign 配置
+feign:
+    client:
+        config:
+            default:
+                connectTimeout: 5000
+                readTimeout: 15000
+                loggerLevel: FULL
+            auth-server:
+                connectTimeout: 5000
+                readTimeout: 15000
+    hystrix:
+        enabled: false
+    httpclient:
+        enabled: true
+        max-connections: 200
+
+# Ribbon 配置
+ribbon:
+    ConnectTimeout: 5000
+    ReadTimeout: 15000
+    MaxAutoRetries: 1
+    MaxAutoRetriesNextServer: 1
+    OkToRetryOnAllOperations: false
+
+# 日志配置
+logging:
+    level:
+        com.wc.feign: DEBUG
+        com.netflix.ribbon: DEBUG
+        org.springframework.cloud.openfeign: DEBUG
+        com.alibaba.nacos: DEBUG
+        com.wc.service: INFO
