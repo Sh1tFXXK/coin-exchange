@@ -23,17 +23,12 @@ public class AutoFillHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         Long userId = getUserId();
-
-/**
- * 3
- 种情况不填充
- * 1
- 值为null
- * 2
- 自动类型不匹配
- * 3
- 没有改字段
- */
+         /**
+         * 3种情况不填充
+         * 1值为null
+         * 2自动类型不匹配
+         * 3没有改字段
+         */
         this.strictInsertFill(metaObject, "lastUpdateTime", Date.class, new Date());
         this.strictInsertFill(metaObject, "createBy", Long.class, userId);
         //创建人的填充
@@ -63,6 +58,9 @@ public class AutoFillHandler implements MetaObjectHandler {
         Long userId =null;
         if(authentication!=null) {
             String principal=authentication.getPrincipal().toString();
+            if("anonymousUser".equals(principal)) {
+                return  null;
+            }
             userId =Long.valueOf(principal);
         }
         return userId;

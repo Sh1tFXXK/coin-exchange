@@ -19,6 +19,10 @@ public class ResourceConfig extends ResourceServerConfigurerAdapter {
         http.csrf().disable()
                 .sessionManagement().disable()
                         .authorizeRequests().antMatchers(
+                                "/users/setPassword",
+                                "/users/register",
+                                "sms/sendTo",
+                                "/gt/register",
                                 "/login",
                         "/v2/api-docs",
                        "/swagger-resources/configuration/ui",//用来获取支持的动作

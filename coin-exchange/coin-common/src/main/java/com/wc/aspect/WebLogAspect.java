@@ -30,7 +30,7 @@ import java.util.HashMap;
 @Slf4j
 public class WebLogAspect {
 
-    @Pointcut("execution(*com.wc.controller.*.*(..))") // controller 包里面所有类，类里面的所有方法 都有该切面
+    @Pointcut("execution(* com.wc..controller..*.*(..))") // controller 包里面所有类，类里面的所有方法 都有该切面
     public void   WebLog(){
     }
 

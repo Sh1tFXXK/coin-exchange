@@ -172,6 +172,92 @@
                 </TableGenerateConfig>
               </value>
             </entry>
+            <entry key="coin-exchange:user">
+              <value>
+                <TableGenerateConfig>
+                  <option name="generatedKey" value="id" />
+                  <option name="javaModelName" value="User" />
+                  <option name="moduleName" value="admin-service" />
+                  <option name="mybatisplusIdType" value="AUTO" />
+                  <option name="useActualColumnName" value="false" />
+                </TableGenerateConfig>
+              </value>
+            </entry>
+            <entry key="coin-exchange:user_address">
+              <value>
+                <TableGenerateConfig>
+                  <option name="generatedKey" value="id" />
+                  <option name="javaModelName" value="UserAddress" />
+                  <option name="moduleName" value="admin-service" />
+                  <option name="mybatisplusIdType" value="AUTO" />
+                  <option name="useActualColumnName" value="false" />
+                </TableGenerateConfig>
+              </value>
+            </entry>
+            <entry key="coin-exchange:user_auth_audit_record">
+              <value>
+                <TableGenerateConfig>
+                  <option name="javaModelName" value="UserAuthAuditRecord" />
+                  <option name="moduleName" value="admin-service" />
+                  <option name="mybatisplusIdType" value="AUTO" />
+                  <option name="useActualColumnName" value="false" />
+                </TableGenerateConfig>
+              </value>
+            </entry>
+            <entry key="coin-exchange:user_auth_info">
+              <value>
+                <TableGenerateConfig>
+                  <option name="generatedKey" value="id" />
+                  <option name="javaModelName" value="UserAuthInfo" />
+                  <option name="moduleName" value="admin-service" />
+                  <option name="mybatisplusIdType" value="AUTO" />
+                  <option name="useActualColumnName" value="false" />
+                </TableGenerateConfig>
+              </value>
+            </entry>
+            <entry key="coin-exchange:user_bank">
+              <value>
+                <TableGenerateConfig>
+                  <option name="generatedKey" value="id" />
+                  <option name="javaModelName" value="UserBank" />
+                  <option name="moduleName" value="admin-service" />
+                  <option name="mybatisplusIdType" value="AUTO" />
+                  <option name="useActualColumnName" value="false" />
+                </TableGenerateConfig>
+              </value>
+            </entry>
+            <entry key="coin-exchange:user_favorite_market">
+              <value>
+                <TableGenerateConfig>
+                  <option name="javaModelName" value="UserFavoriteMarket" />
+                  <option name="moduleName" value="admin-service" />
+                  <option name="mybatisplusIdType" value="AUTO" />
+                  <option name="useActualColumnName" value="false" />
+                </TableGenerateConfig>
+              </value>
+            </entry>
+            <entry key="coin-exchange:user_login_log">
+              <value>
+                <TableGenerateConfig>
+                  <option name="generatedKey" value="id" />
+                  <option name="javaModelName" value="UserLoginLog" />
+                  <option name="moduleName" value="admin-service" />
+                  <option name="mybatisplusIdType" value="AUTO" />
+                  <option name="useActualColumnName" value="false" />
+                </TableGenerateConfig>
+              </value>
+            </entry>
+            <entry key="coin-exchange:user_wallet">
+              <value>
+                <TableGenerateConfig>
+                  <option name="generatedKey" value="id" />
+                  <option name="javaModelName" value="UserWallet" />
+                  <option name="moduleName" value="admin-service" />
+                  <option name="mybatisplusIdType" value="AUTO" />
+                  <option name="useActualColumnName" value="false" />
+                </TableGenerateConfig>
+              </value>
+            </entry>
             <entry key="coin-exchange:web_config">
               <value>
                 <TableGenerateConfig>

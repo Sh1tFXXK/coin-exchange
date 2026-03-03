@@ -1,0 +1,26 @@
+spring:
+    profiles:
+        active: dev
+    application:
+      name: member-service
+    mail:
+        host: smtp.qq.com
+        port: 465  # SSL端口（推荐），587为TLS端口
+        username: 3141479867@qq.com  # 发件人QQ邮箱
+        password: your-auth-code  # 步骤1获取的授权码
+        default-encoding: UTF-8
+        protocol: smtp
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    ssl:
+                        enable: true  # 强制SSL，避免明文传输
+                    socketFactory:
+                        class: javax.net.ssl.SSLSocketFactory
+        debug: false  # 排查问题时设为true，打印邮件日志
+    cloud:
+      nacos:
+          server-addr: nacos-server:8848
+          config:
+              file-extension: yaml

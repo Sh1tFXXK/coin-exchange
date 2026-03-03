@@ -25,7 +25,7 @@ public class JwtCheckFilter implements GlobalFilter, Ordered {
     @Autowired
     private StringRedisTemplate redisTemplate;
 
-    @Value("${no.require.uris:/admin/login}")
+    @Value("${no.require.uris:/admin/login,/user/gt/register,/user/login,/user/users/register,/user/sms/sendTo,/user/users/setPassword}")
     private Set<String> noRequireUris;
 
     @Override

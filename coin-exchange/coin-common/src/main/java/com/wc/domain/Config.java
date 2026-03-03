@@ -3,18 +3,17 @@ package com.wc.domain;
 import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 /**
- * 平台配置信息
- */
-@ApiModel(description="平台配置信息")
+    * 平台配置信息
+    */
+@ApiModel(value="com-wc-domain-Config")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,14 +22,14 @@ public class Config {
     /**
      * 主键
      */
-    @TableId(value = "id", type = IdType.INPUT)
+    @TableId(value = "id", type = IdType.AUTO)
     @ApiModelProperty(value="主键")
     private Long id;
 
     /**
      * 配置规则类型
      */
-    @TableField(value = "`type`")
+    @TableField(value = "type")
     @ApiModelProperty(value="配置规则类型")
     @NotBlank
     private String type;
@@ -46,7 +45,7 @@ public class Config {
     /**
      * 配置规则名称
      */
-    @TableField(value = "`name`")
+    @TableField(value = "name")
     @ApiModelProperty(value="配置规则名称")
     @NotBlank
     private String name;
@@ -61,7 +60,7 @@ public class Config {
     /**
      * 配置值
      */
-    @TableField(value = "`value`")
+    @TableField(value = "value")
     @ApiModelProperty(value="配置值")
     @NotBlank
     private String value;
@@ -69,7 +68,7 @@ public class Config {
     /**
      * 创建时间
      */
-    @TableField(value = "created",fill = FieldFill.INSERT)
+    @TableField(value = "created" ,fill = FieldFill.INSERT)
     @ApiModelProperty(value="创建时间")
     private Date created;
 }
