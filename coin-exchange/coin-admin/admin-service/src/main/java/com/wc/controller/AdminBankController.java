@@ -2,6 +2,8 @@ package com.wc.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wc.domain.AdminBank;
+import com.wc.dto.AdminBankDto;
+import com.wc.feign.AdminBankServiceFeign;
 import com.wc.model.R;
 import com.wc.service.AdminBankService;
 import io.swagger.annotations.Api;
@@ -14,10 +16,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/adminBanks")
 @Api(tags ="公司银行卡的配置")
-public class AdminBankController {
+public class AdminBankController  implements AdminBankServiceFeign {
 
     @Autowired
     private AdminBankService adminBankService;
@@ -80,4 +84,11 @@ public class AdminBankController {
         }
         return R.fail("状态修改失败") ;
     }
+
+    @Override
+    public List<AdminBankDto> getAllAdminBanks() {
+        List<AdminBankDto> adminBankDtos = adminBankService.getAllAdminBanks() ;
+        return adminBankDtos;
+    }
+
 }

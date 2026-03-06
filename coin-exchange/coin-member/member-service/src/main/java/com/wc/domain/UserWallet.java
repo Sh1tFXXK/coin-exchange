@@ -11,6 +11,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * 用户提币地址
  */
@@ -86,4 +88,10 @@ public class UserWallet {
     @TableField(value = "created")
     @ApiModelProperty(value="创建时间")
     private Date created;
+
+
+    @TableField(exist = false)
+    @ApiModelProperty(value = "交易密码")
+    @NotBlank
+    private String payPassword ;
 }

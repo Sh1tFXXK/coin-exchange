@@ -6,7 +6,7 @@ import com.wc.domain.User;
 import com.wc.domain.UserAuthAuditRecord;
 import com.wc.domain.UserAuthInfo;
 import com.wc.dto.UserDto;
-import com.wc.dto.feign.UserServiceFeign;
+import com.wc.feign.UserServiceFeign;
 import com.wc.model.*;
 import com.wc.service.UserAuthAuditRecordService;
 import com.wc.service.UserAuthInfoService;

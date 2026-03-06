@@ -1,4 +1,4 @@
-package com.wc.dto.feign;
+package com.wc.feign;
 
 import com.wc.config.feign.OAuth2FeignConfig;
 import com.wc.dto.UserDto;
@@ -21,5 +21,5 @@ public interface UserServiceFeign {
      * @return
      */
     @GetMapping("/basic/users")
-    Map<Long, UserDto> getBasicUsers(@RequestParam("ids")List<Long> ids, String userName, String mobile);
+    Map<Long, UserDto> getBasicUsers(@RequestParam("ids")List<Long> ids, @RequestParam("userName") String userName, @RequestParam("mobile") String mobile);
 }

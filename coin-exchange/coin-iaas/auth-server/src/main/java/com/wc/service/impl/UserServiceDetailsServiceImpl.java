@@ -3,13 +3,11 @@ package com.wc.service.impl;
 import com.alibaba.nacos.client.naming.utils.CollectionUtils;
 import com.wc.constant.LoginConstant;
 import org.apache.commons.lang.StringUtils;
-import org.checkerframework.checker.nullness.qual.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.security.authentication.AuthenticationServiceException;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -86,7 +84,7 @@ public class UserServiceDetailsServiceImpl implements UserDetailsService {
     private UserDetails loadMemberUserByUsername(String username) {
         return jdbcTemplate.queryForObject(LoginConstant.QUERY_MEMBER_SQL, new RowMapper<User>() {
             @Override
-            public @Nullable User mapRow(ResultSet resultSet, int i) throws SQLException {
+            public  User mapRow(ResultSet resultSet, int i) throws SQLException {
                 if(resultSet.wasNull()) {
                     throw new UsernameNotFoundException("用户名"+username+"不存在");
                 }
@@ -110,7 +108,7 @@ public class UserServiceDetailsServiceImpl implements UserDetailsService {
     private UserDetails loadSysUserByUsername(String username) {
         return jdbcTemplate.queryForObject(LoginConstant.QUERY_ADMIN_SQL, new RowMapper<UserDetails>() {
             @Override
-            public @Nullable UserDetails mapRow(ResultSet resultSet, int i) throws SQLException {
+            public UserDetails mapRow(ResultSet resultSet, int i) throws SQLException {
                 if(resultSet.wasNull()){
                     throw new UsernameNotFoundException("用户名"+username+"不存在");
                 }
