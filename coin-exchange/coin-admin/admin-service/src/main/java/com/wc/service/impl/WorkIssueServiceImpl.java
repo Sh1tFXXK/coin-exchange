@@ -76,4 +76,18 @@ public class WorkIssueServiceImpl extends ServiceImpl<WorkIssueMapper, WorkIssue
         return pageData;
     }
 
+    /**
+     * 前台系统查询客户工单
+     *
+     * @param page
+     * @return
+     */
+    @Override
+    public Page<WorkIssue> getIssueList(Page<WorkIssue> page,Long userId) {
+        return page(page,new LambdaQueryWrapper<WorkIssue>()
+                        .eq(WorkIssue::getUserId,userId)
+//                                            .eq(WorkIssue::getStatus,1)
+        );
+    }
+
 }

@@ -64,7 +64,7 @@ public class WorkIssue {
      */
     @TableField(value = "`status`")
     @ApiModelProperty(value="状态：1-待回答；2-已回答；")
-    private Boolean status;
+    private Integer status;
 
     /**
      * 修改时间

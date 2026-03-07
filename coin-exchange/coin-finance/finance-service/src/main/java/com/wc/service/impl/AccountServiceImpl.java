@@ -1,22 +1,31 @@
 package com.wc.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wc.domain.Account;
 import com.wc.domain.AccountDetail;
 import com.wc.domain.Coin;
 import com.wc.domain.Config;
 import com.wc.mapper.AccountMapper;
+import com.wc.mappers.AccountVoMappers;
 import com.wc.service.AccountDetailService;
 import com.wc.service.AccountService;
 import com.wc.service.CoinService;
 import com.wc.service.ConfigService;
+import com.wc.vo.AccountVo;
+import com.wc.vo.UserTotalAccountVo;
+import dto.MarketDto;
+import feign.MarketServiceFeign;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -27,6 +36,10 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
 
     @Autowired
     private ConfigService configService;
+
+    @Autowired
+    private MarketServiceFeign marketServiceFeign;
+
 
 
     /**
@@ -205,5 +218,91 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
                 .eq(Account::getUserId, userId)
                 .eq(Account::getStatus, 1)
         );
+    }
+
+    /**
+     * 计算用户的总的资产
+     *
+     * @param userId
+     * @return
+     */
+    @Override
+    public UserTotalAccountVo getUserTotalAccount(Long userId) {
+        // 计算总资产
+        UserTotalAccountVo userTotalAccountVo = new UserTotalAccountVo();
+        BigDecimal basicCoin2CnyRate = BigDecimal.ONE; // 汇率
+        BigDecimal basicCoin = BigDecimal.ZERO; // 平台计算币的基币
+        List<AccountVo> assertList = new ArrayList<AccountVo>();
+        // 用户的总资产位于Account 里面
+        List<Account> accounts = list(new LambdaQueryWrapper<Account>()
+                .eq(Account::getUserId, userId)
+        );
+        if (CollectionUtils.isEmpty(accounts)) {
+            userTotalAccountVo.setAssertList(assertList);
+            userTotalAccountVo.setAmountUs(BigDecimal.ZERO);
+            userTotalAccountVo.setAmount(BigDecimal.ZERO);
+            return userTotalAccountVo; //
+        }
+        AccountVoMappers mappers = AccountVoMappers.INSTANCE;
+        // 获取所有的币种
+        for (Account account : accounts) {
+            AccountVo accountVo = mappers.toConvertVo(account);
+            Long coinId = account.getCoinId();
+            Coin coin = coinService.getById(coinId);
+            if (coin == null || coin.getStatus() != (byte) 1) {
+                continue;
+            }
+            // 设置币的信息
+            accountVo.setCoinName(coin.getName());
+            accountVo.setCoinImgUrl(coin.getImg());
+            accountVo.setCoinType(coin.getType());
+            accountVo.setWithdrawFlag(coin.getWithdrawFlag());
+            accountVo.setRechargeFlag(coin.getRechargeFlag());
+            accountVo.setFeeRate(BigDecimal.valueOf(coin.getRate()));
+            accountVo.setMinFeeNum(coin.getMinFeeNum());
+
+            assertList.add(accountVo);
+            // 计算总的账面余额 //
+            BigDecimal volume = accountVo.getBalanceAmount().add(accountVo.getFreezeAmount());
+            accountVo.setCarryingAmount(volume); // 总的账面余额
+            // 将该币和我们系统统计币使用的基币转化
+            BigDecimal currentPrice = getCurrentCoinPrice(coinId);
+
+            BigDecimal total = volume.multiply(currentPrice);
+            basicCoin = basicCoin.add(total); // 将该子资产添加到我们的总资产里面
+        }
+        userTotalAccountVo.setAmount(basicCoin.multiply(basicCoin2CnyRate).setScale(8, RoundingMode.HALF_UP)); // 总的人民币
+        userTotalAccountVo.setAmountUs(basicCoin); // 总的平台计算的币种(基础币)
+        userTotalAccountVo.setAmountUsUnit("GCN");
+        userTotalAccountVo.setAssertList(assertList);
+        return userTotalAccountVo;
+    }
+
+    /**
+     * 获取当前币的价格
+     * 使用我们的基币兑换该币的价格
+     *
+     * @param coinId
+     * @return
+     */
+    private BigDecimal getCurrentCoinPrice(Long coinId) {
+        // 1 查询我们的基础币是什么?
+        Config configBasicCoin = configService.getConfigByCode("PLATFORM_COIN_ID"); // 基础币
+        if (configBasicCoin == null) {
+            throw new IllegalArgumentException("请配置基础币后使用");
+        }
+        Long basicCoinId = Long.valueOf(configBasicCoin.getValue());
+        if (coinId.equals(basicCoinId)) { // 该币就是基础币
+            return BigDecimal.ONE;
+        }
+        // 不等于,我们需要查询交易市场   ,使用基础币作为我们报价货币,使用报价货币的的金额 来计算我们的当前币的价格
+        MarketDto market = marketServiceFeign.findByCoinId(basicCoinId, coinId);
+        if (market != null) { // 存在交易对
+            return market.getOpenPrice();
+        } else {
+            // 该交易对不存在?
+            log.error("不存在当前币和平台币兑换的市场,请后台人员及时添加");
+            return BigDecimal.ZERO;//TODO
+        }
     }
 }

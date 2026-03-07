@@ -2,6 +2,7 @@ package com.wc.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wc.domain.Account;
+import com.wc.vo.UserTotalAccountVo;
 
 import java.math.BigDecimal;
 
@@ -64,4 +65,6 @@ public interface AccountService  extends IService<Account> {
      Boolean decreaseAccountAmount(Long adminId, Long userId, Long coinId, Long orderNum ,BigDecimal num, BigDecimal fee,String remark, String businessType, byte direction);
 
      Account findByUserAndCoin(Long userId, String coinName);
+
+    UserTotalAccountVo getUserTotalAccount(Long userId);
 }

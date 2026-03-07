@@ -4,6 +4,7 @@ import com.wc.domain.Account;
 import com.wc.feign.AccountServiceFeign;
 import com.wc.model.R;
 import com.wc.service.AccountService;
+import com.wc.vo.UserTotalAccountVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -20,10 +21,7 @@ import java.math.BigDecimal;
 @RestController
 @RequestMapping("/account")
 @Api(tags = "资产服务的控制器")
-public class AccountController
-//        implements AccountServiceFeign
-{
-
+public class AccountController implements AccountServiceFeign {
 
     @Autowired
     private AccountService accountService;
@@ -38,6 +36,15 @@ public class AccountController
         Account account = accountService.findByUserAndCoin(userId, coinName);
         return R.ok(account);
     }
+
+    @GetMapping("/total")
+    @ApiOperation(value = "计算用户的总资产")
+    public R<UserTotalAccountVo> total() {
+        Long userId = Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+        UserTotalAccountVo userTotalAccountVo = accountService.getUserTotalAccount(userId);
+        return R.ok(userTotalAccountVo);
+    }
+
 
 
 }

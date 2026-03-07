@@ -22,4 +22,18 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
         );
     }
 
+    /**
+     * 查询公告
+     *
+     * @param page
+     * @return
+     */
+    @Override
+    public Page<Notice> findNoticeForSimple(Page<Notice> page) {
+        return page(page,new LambdaQueryWrapper<Notice>()
+                .eq(Notice::getStatus,1)
+                .orderByAsc(Notice::getSort)
+        );
+    }
+
 }
