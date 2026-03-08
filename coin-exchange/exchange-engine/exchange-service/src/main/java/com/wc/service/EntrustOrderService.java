@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.wc.domain.ExchangeTrade;
 import com.wc.param.OrderParam;
 import com.wc.vo.TradeEntrustOrderVo;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface EntrustOrderService extends IService<EntrustOrder>{
 
@@ -17,5 +18,10 @@ public interface EntrustOrderService extends IService<EntrustOrder>{
 
     Boolean createEntrustOrder(Long userId, OrderParam orderParam);
 
+    @Transactional
+    void doMatch(ExchangeTrade exchangeTrade);
+
     void cancleEntrustOrder(Long orderId);
+
+    void cancleEntrustOrderToDb(String orderId);
 }

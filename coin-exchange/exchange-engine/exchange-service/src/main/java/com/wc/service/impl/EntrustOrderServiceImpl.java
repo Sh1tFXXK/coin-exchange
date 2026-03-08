@@ -277,8 +277,8 @@ public class EntrustOrderServiceImpl extends ServiceImpl<EntrustOrderMapper, Ent
      *
      * @param exchangeTrade
      */
-    @Override
     @Transactional
+    @Override
     public void doMatch(ExchangeTrade exchangeTrade) {
         String sellOrderId = exchangeTrade.getSellOrderId();
         String buyOrderId = exchangeTrade.getBuyOrderId();

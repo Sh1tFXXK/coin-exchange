@@ -9,13 +9,20 @@ spring:
         stream:
             rocketmq:
                 binder:
-                    name-server : rocket-server:9876  #/RocketMQ Message hasn't been sent
-                binders:
-                    order_out: {consumer.orderly: true}
+                    name-server: rocket-server:9876
             bindings:
-                order_out: {destination: order_in, content-type: application/plain}
-                cancel_order_in: {destination: cancel_order_out, content-type: application/plain, group: order-group, consumer.maxAttempts: 1}
-                exchange_trade_in: {destination: exchange_trades_out, content-type: application/plain, group: order-group, consumer.maxAttempts: 1}
+                order_out:
+                    destination: order_in
+                    content-type: application/plain
+                cancel_order_in:
+                    destination: cancel_order_in
+                    content-type: application/plain
+                    group: cancel-order-consumer-group
+                exchange_trade_in:
+                    destination: exchange_trade_in
+                    content-type: application/plain
+                    group: exchange-trade-consumer-group
+        # ... existing code ...
     # 拉取的配置文件的dataID =  exchange-service-dev.yaml
     profiles:
         active: dev

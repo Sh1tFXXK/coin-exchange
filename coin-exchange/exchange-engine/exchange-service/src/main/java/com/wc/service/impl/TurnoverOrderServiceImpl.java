@@ -9,6 +9,7 @@ import com.wc.mapper.TurnoverOrderMapper;
 import com.wc.service.TurnoverOrderService;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -25,7 +26,7 @@ public class TurnoverOrderServiceImpl extends ServiceImpl<TurnoverOrderMapper, T
      */
     @Override
     public Page<TurnoverOrder> findByPage(Page<TurnoverOrder> page, Long userId, String symbol, Integer type) {
-    //        return page(page,new LambdaQueryWrapper<TurnoverOrder>().eq(TurnoverOrder::getus));
+        //        return page(page,new LambdaQueryWrapper<TurnoverOrder>().eq(TurnoverOrder::getus));
         return null;
     }
 
@@ -72,6 +73,19 @@ public class TurnoverOrderServiceImpl extends ServiceImpl<TurnoverOrderMapper, T
         return list(new LambdaQueryWrapper<TurnoverOrder>().eq(TurnoverOrder::getOrderId, orderId)
                 .eq(TurnoverOrder::getSellUserId, userId)
         );
+    }
 
+    /**
+     * 查询该交易对的24 小时成交记录
+     *
+     * @param symbol
+     * @return
+     */
+    @Override
+    public TurnoverData24HDTO query24HDealData(String symbol) {
+        TurnoverData24HDTO turnoverData24HDTO = new TurnoverData24HDTO();
+        turnoverData24HDTO.setAmount(BigDecimal.valueOf(1000)) ;
+        turnoverData24HDTO.setVolume(BigDecimal.valueOf(100000)) ;
+        return turnoverData24HDTO;
     }
 }

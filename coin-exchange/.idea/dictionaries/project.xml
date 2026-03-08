@@ -4,6 +4,7 @@
       <w>geetest</w>
       <w>jetcache</w>
       <w>nacos</w>
+      <w>rocketmq</w>
     </words>
   </dictionary>
 </component>

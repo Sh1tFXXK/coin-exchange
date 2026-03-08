@@ -1,5 +1,6 @@
 package com.wc.config.rocket;
 
+import com.wc.domain.ExchangeTrade;
 import com.wc.service.EntrustOrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

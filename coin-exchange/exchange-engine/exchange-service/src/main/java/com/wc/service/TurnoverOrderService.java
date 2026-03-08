@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wc.domain.TurnoverOrder;
 import com.wc.dto.TurnoverData24HDTO;
+//import com.wc.dto.TurnoverData24HDTO;
 
 import java.util.List;
 
@@ -36,4 +37,6 @@ public interface TurnoverOrderService extends IService<TurnoverOrder> {
      * @return
      */
     List<TurnoverOrder> getSellTurnoverOrder(Long orderId,Long userId);
+
+    TurnoverData24HDTO query24HDealData(String symbol);
 }
