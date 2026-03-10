@@ -1,0 +1,299 @@
+{
+  "repo_notes": [
+    {
+      "content": ""
+    }
+  ],
+  "pages": [
+    {
+      "title": "Overview",
+      "purpose": "Introduction to the coin-exchange system, its purpose as a cryptocurrency trading platform, and high-level architecture overview",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Technology Stack",
+      "purpose": "Overview of the core technologies used: Spring Boot, Spring Cloud, Alibaba Cloud ecosystem, MyBatis-Plus, Redis, RocketMQ, etc.",
+      "parent": "Overview",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Multi-Module Architecture",
+      "purpose": "Explanation of the Maven multi-module structure and the purpose of each major module",
+      "parent": "Overview",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Infrastructure Layer (coin-iaas)",
+      "purpose": "Documentation of infrastructure services including API gateway, authentication, service discovery, and traffic control",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "API Gateway",
+      "purpose": "Configuration and routing rules for the gateway-server, including path-based routing, service discovery, and Sentinel integration",
+      "parent": "Infrastructure Layer (coin-iaas)",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Authentication Service",
+      "purpose": "OAuth2-based authentication service configuration, security architecture, and token management",
+      "parent": "Infrastructure Layer (coin-iaas)",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Service Discovery with Nacos",
+      "purpose": "How services register with and discover each other via Nacos, including configuration management",
+      "parent": "Infrastructure Layer (coin-iaas)",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Common Components (coin-common)",
+      "purpose": "Shared utilities, constants, DTOs, and domain models used across all services",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "System Constants",
+      "purpose": "Documentation of system-wide constants including Redis keys, configuration types, matching engine results, and channel names",
+      "parent": "Common Components (coin-common)",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Common DTOs and Enums",
+      "purpose": "Shared data transfer objects and enumerations used for inter-service communication",
+      "parent": "Common Components (coin-common)",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "K-Line Data Models",
+      "purpose": "Candlestick chart data structures including CreateKLineDto, Line domain object, and KlineType enum with time intervals",
+      "parent": "Common Components (coin-common)",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Order Book Depth Models",
+      "purpose": "Data structures for order book depth aggregation, merging strategies, and DepthMergeType enum",
+      "parent": "Common Components (coin-common)",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Exchange Engine",
+      "purpose": "Core trading operations including market management, order processing, and trade execution",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Exchange Service Configuration",
+      "purpose": "Service configuration including Nacos integration, RocketMQ bindings, and message channels for order and trade processing",
+      "parent": "Exchange Engine",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Market Service",
+      "purpose": "Market configuration management including trading pairs, symbols, market data retrieval, and coin integration",
+      "parent": "Exchange Engine",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Market Service Feign Client",
+      "purpose": "Inter-service communication interface for accessing market data, depth data, and trade information from other services",
+      "parent": "Exchange Engine",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Exchange Message Channels",
+      "purpose": "RocketMQ message channels for order input, cancellation, and trade processing with Spring Cloud Stream",
+      "parent": "Exchange Engine",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Match Engine",
+      "purpose": "Order matching algorithms, order book management, and trade execution",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Match Service Configuration",
+      "purpose": "Configuration of the matching engine including symbol-specific settings (coinScale, baseCoinScale) and RocketMQ bindings",
+      "parent": "Match Engine",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Order Matching Flow",
+      "purpose": "How orders flow through the matching engine, order book management, and production of trade results",
+      "parent": "Match Engine",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Finance Service",
+      "purpose": "Account management, balance tracking, fund locking, and financial transaction processing",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Account Service",
+      "purpose": "User account operations including balance queries, fund locking, transfers, and account decreases",
+      "parent": "Finance Service",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Account REST API",
+      "purpose": "REST endpoints for account operations and Feign client implementation for inter-service calls",
+      "parent": "Finance Service",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Financial Transaction Types",
+      "purpose": "Different types of financial operations: locks, transfers, decreases, and their parameters",
+      "parent": "Finance Service",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Chain Service",
+      "purpose": "Blockchain integration and real-time data streaming via WebSocket for market updates",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Chain Service Configuration",
+      "purpose": "Service configuration including Nacos, RocketMQ, and T-IO WebSocket server setup",
+      "parent": "Chain Service",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "task Service",
+      "purpose": "",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "admin Service",
+      "purpose": "",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "statics Service",
+      "purpose": "",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "WebSocket Server",
+      "purpose": "T-IO WebSocket server configuration, port settings, heartbeat timeout, and client connection management",
+      "parent": "Chain Service",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    }
+  ]
+}
