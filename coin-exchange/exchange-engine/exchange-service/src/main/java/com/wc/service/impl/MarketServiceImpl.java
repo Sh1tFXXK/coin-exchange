@@ -134,4 +134,15 @@ public class MarketServiceImpl extends ServiceImpl<MarketMapper, Market> impleme
                 .eq(Market::getStatus, 1)
                 .orderByAsc(Market::getSort));
     }
+
+    /**
+     * 查询所有的市场数据
+     *
+     * @return
+     */
+    @Override
+    public List<MarketDto> queryAllMarkets() {
+        List<Market> list = list(new LambdaQueryWrapper<Market>().eq(Market::getStatus, 1));
+        return MarketDtoMappers.INSTANCE.toConvertDto(list);
+    }
 }

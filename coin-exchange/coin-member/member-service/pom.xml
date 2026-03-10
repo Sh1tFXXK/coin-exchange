@@ -41,7 +41,7 @@
             <version>2.2.0.RELEASE</version>
         </dependency>
 
-        <!--mapStruct依赖高性能对象映射-->
+        <!--mapStruct 依赖 高性能对象映射-->
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-jdk8</artifactId>
@@ -49,6 +49,13 @@
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

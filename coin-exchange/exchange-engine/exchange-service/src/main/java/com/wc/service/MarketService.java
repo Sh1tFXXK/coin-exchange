@@ -28,4 +28,6 @@ public interface MarketService extends IService<Market> {
     MarketDto findByCoinId(Long buyCoinId, Long sellCoinId);
 
     List<Market> queryByAreaId(Long id);
+
+    List<MarketDto> queryAllMarkets();
 }

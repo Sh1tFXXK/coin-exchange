@@ -9,11 +9,14 @@ import com.wc.constant.Constants;
 import com.wc.domain.DepthItemVo;
 import com.wc.domain.Market;
 import com.wc.domain.TurnoverOrder;
+import com.wc.dto.TurnoverData24HDTO;
+import com.wc.mappers.MarketDtoMappers;
 import com.wc.model.R;
 import com.wc.service.MarketService;
 import com.wc.service.TurnoverOrderService;
 import com.wc.vo.DepthsVo;
 import dto.MarketDto;
+import dto.TradeMarketDto;
 import feign.MarketServiceFeign;
 import feign.OrderBooksFeignClient;
 import io.swagger.annotations.Api;
@@ -189,6 +192,139 @@ public class MarketController implements MarketServiceFeign {
         return marketDto;
     }
 
+    @Override
+    public MarketDto findBySymbol(String symbol) {
+        Market markerBySymbol = marketService.getMarkerBySymbol(symbol);
+        return MarketDtoMappers.INSTANCE.toConvertDto(markerBySymbol);
+    }
 
+    /**
+     * 查询所有的交易市场
+     *
+     * @return
+     */
+    @Override
+    public List<MarketDto> tradeMarkets() {
+        return marketService.queryAllMarkets();
+    }
+
+    /**
+     * 查询该交易对下的盘口数据
+     *
+     * @param symbol
+     * @param value
+     * @return
+     */
+    @Override
+    public String depthData(String symbol, int value) {
+        R<DepthsVo> deptVosSymbol = findDeptVosSymbol(symbol, value + "");
+        DepthsVo data = deptVosSymbol.getData();
+        return JSON.toJSONString(data);
+    }
+
+    /**
+     * 使用市场的 ids 查询该市场的交易趋势
+     *
+     * @param marketIds
+     * @return
+     */
+    @Override
+    public List<TradeMarketDto> queryMarkesByIds(String marketIds) {
+        // 1. 解析市场 IDs
+        if (marketIds == null || marketIds.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
+        
+        String[] idArray = marketIds.split(",");
+        List<TradeMarketDto> result = new ArrayList<>();
+        
+        // 2. 遍历每个市场 ID，查询对应的市场数据
+        for (String id : idArray) {
+            try {
+                Long marketId = Long.parseLong(id.trim());
+                Market market = marketService.getById(marketId);
+                if (market != null) {
+                    TradeMarketDto tradeMarketDto = convertToTradeMarketDto(market);
+                    result.add(tradeMarketDto);
+                }
+            } catch (NumberFormatException e) {
+                // 跳过无效的 ID
+                continue;
+            }
+        }
+        
+        return result;
+    }
+
+    /**
+     * 通过交易对查询所有的交易数据
+     *
+     * @param symbol
+     * @return
+     */
+    @Override
+    public String trades(String symbol) {
+        // 1. 查询该交易对的成交记录
+        List<TurnoverOrder> turnoverOrders = turnoverOrderService.findBySymbol(symbol);
+        
+        // 2. 将成交记录转换为 JSON 返回
+        if (!CollectionUtils.isEmpty(turnoverOrders)) {
+            return JSON.toJSONString(turnoverOrders);
+        }
+        return "[]";
+    }
+
+    /**
+     * 刷新 24 小时成交数据
+     *
+     * @param symbol 交易对
+     */
+    @Override
+    public void refresh24hour(String symbol) {
+        // 1. 查询 24 小时成交数据
+        TurnoverData24HDTO turnoverData24HDTO = turnoverOrderService.query24HDealData(symbol);
+        
+        if (turnoverData24HDTO != null) {
+            // 2. 将 24 小时成交数据缓存到 Redis
+            String redisKey = Constants.REDIS_KEY_TRADE_24H + symbol.toLowerCase();
+            
+            // 3. 保存成交量和成交额
+            redisTemplate.opsForValue().set(redisKey + ":volume", 
+                turnoverData24HDTO.getVolume().toString());
+            redisTemplate.opsForValue().set(redisKey + ":amount", 
+                turnoverData24HDTO.getAmount().toString());
+            
+            // 4. 设置过期时间为 24 小时
+            redisTemplate.expire(redisKey + ":volume", 24, java.util.concurrent.TimeUnit.HOURS);
+            redisTemplate.expire(redisKey + ":amount", 24, java.util.concurrent.TimeUnit.HOURS);
+        }
+    }
+    
+    /**
+     * 将 Market 转换为 TradeMarketDto
+     * @param market 市场对象
+     * @return 交易市场 DTO
+     */
+    private TradeMarketDto convertToTradeMarketDto(Market market) {
+        TradeMarketDto tradeMarketDto = new TradeMarketDto();
+        tradeMarketDto.setSymbol(market.getSymbol());
+        tradeMarketDto.setName(market.getName());
+        tradeMarketDto.setImage(market.getImg());
+        tradeMarketDto.setBuyFeeRate(market.getFeeBuy());
+        tradeMarketDto.setSellFeeRate(market.getFeeSell());
+        tradeMarketDto.setPriceScale(market.getPriceScale());
+        tradeMarketDto.setNumScale(market.getNumScale());
+        tradeMarketDto.setNumMin(market.getNumMin());
+        tradeMarketDto.setNumMax(market.getNumMax());
+        tradeMarketDto.setTradeMin(market.getTradeMin());
+        tradeMarketDto.setTradeMax(market.getTradeMax());
+        tradeMarketDto.setPrice(market.getOpenPrice());
+        tradeMarketDto.setCnyPrice(market.getOpenPrice());
+        tradeMarketDto.setHigh(market.getOpenPrice());
+        tradeMarketDto.setLow(market.getOpenPrice());
+        tradeMarketDto.setSort(market.getSort());
+        
+        return tradeMarketDto;
+    }
 
 }

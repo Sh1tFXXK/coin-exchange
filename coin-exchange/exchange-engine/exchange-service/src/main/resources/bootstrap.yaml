@@ -22,7 +22,6 @@ spring:
                     destination: exchange_trade_in
                     content-type: application/plain
                     group: exchange-trade-consumer-group
-        # ... existing code ...
     # 拉取的配置文件的dataID =  exchange-service-dev.yaml
     profiles:
         active: dev

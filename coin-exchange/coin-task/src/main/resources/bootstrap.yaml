@@ -1,0 +1,31 @@
+spring:
+    application:
+        name: task-service
+    profiles:
+        active: dev
+
+    cloud:
+        nacos:
+            config:
+                server-addr: 192.168.0.78:8848
+                file-extension: yaml
+                group: DEFAULT_GROUP
+            discovery:
+                server-addr: 192.168.0.78:8848
+
+        stream:
+            bindings:
+                subscribe_event_out:
+                    destination: tio_group
+                    content-type: application/plain
+                    group: order-group
+                    consumer:
+                        maxAttempts: 1
+            rocketmq:
+                binder:
+                    name-server: 192.168.0.78:9876
+
+tio:
+    websocket:
+        server:
+            port: 9327

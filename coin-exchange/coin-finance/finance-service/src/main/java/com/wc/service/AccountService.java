@@ -67,4 +67,8 @@ public interface AccountService  extends IService<Account> {
      Account findByUserAndCoin(Long userId, String coinName);
 
     UserTotalAccountVo getUserTotalAccount(Long userId);
+
+    void transferSellAmount(Long fromUserId, Long toUserId, Long coinId, BigDecimal amount, String businessType, Long orderId);
+
+    void transferBuyAmount(Long fromUserId, Long toUserId, Long coinId, BigDecimal amount, String businessType, Long orderId);
 }
